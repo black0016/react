@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from 'react'; // Importar react 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Importar BrowserRouter as Router, Route, Routes de react-router-dom para las rutas de la aplicación
+
+
+// Layaouts
+import Header from './components/layout/Header'; // Importar el componente Header
+import Navegacion from './components/layout/Navegacion'; // Importar el componente Navegacion
+
+// Componentes
+import Clientes from './components/clientes/Clientes'; // Importar el componente Clientes 
+import NuevoCliente from './components/clientes/NuevoCliente'; // Importar el componente NuevoCliente
+import EditarCliente from './components/clientes/EditarCliente'; // Importar el componente EditarCliente
+
+import Productos from './components/productos/Productos'; // Importar el componente Productos
+import Pedidos from './components/pedidos/Pedidos'; // Importar el componente Pedidos
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <Fragment>
+                <Header />
+
+                <div className="grid contenedor contenido-principal">
+                    <Navegacion />
+
+                    <main className="caja-contenido col-9">
+                        <Routes>
+                            <Route path="/" element={<Clientes />} /> {/* Ruta por defecto que lista los clientes */}
+                            <Route path='/clientes/nuevo-cliente' element={<NuevoCliente />} /> {/* Ruta para el formulario de nuevo cliente */}
+                            <Route path='/clientes/editar-cliente/:id' element={<EditarCliente />} /> {/* Ruta para el formulario de editar cliente */}
+
+                            <Route path="/productos" element={<Productos />} /> {/* Ruta para listar los productos */}
+
+                            <Route path="/pedidos" element={<Pedidos />} /> {/* Ruta para listar los pedidos */}
+                        </Routes>
+                    </main>
+                </div>
+            </Fragment>
+        </Router>
+    );
 }
+
 
 export default App;
