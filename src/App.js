@@ -12,6 +12,9 @@ import NuevoCliente from './components/clientes/NuevoCliente'; // Importar el co
 import EditarCliente from './components/clientes/EditarCliente'; // Importar el componente EditarCliente
 
 import Productos from './components/productos/Productos'; // Importar el componente Productos
+import NuevoProducto from './components/productos/NuevoProducto'; // Importar el componente NuevoProducto
+import EditarProducto from './components/productos/EditarProducto'; // Importar el componente EditarProducto
+
 import Pedidos from './components/pedidos/Pedidos'; // Importar el componente Pedidos
 
 
@@ -31,6 +34,8 @@ function App() {
                             <Route path='/clientes/editar-cliente/:id' element={<EditarCliente />} /> {/* Ruta para el formulario de editar cliente */}
 
                             <Route path="/productos" element={<Productos />} /> {/* Ruta para listar los productos */}
+                            <Route path="/productos/nuevo-producto" element={<NuevoProducto />} />  {/* Ruta para el formulario de nuevo producto */}
+                            <Route path='/productos/editar-producto/:id' element={<EditarProducto />} /> {/* Ruta para el formulario de editar producto */}
 
                             <Route path="/pedidos" element={<Pedidos />} /> {/* Ruta para listar los pedidos */}
                         </Routes>

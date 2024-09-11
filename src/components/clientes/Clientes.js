@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 // Importar clienteAxios de axios para las peticiones al servidor
 import clienteAxios from '../../config/axios';
-
 // Importar el componente de cliente para mostrar la información de los clientes
 import Cliente from './Cliente';
+// Importar el componente Spinner para mostrar un indicador de carga
+import Spinner from '../layout/Spinner';
 
 const Clientes = () => {
 
@@ -25,6 +26,9 @@ const Clientes = () => {
         // Llama a la función para consultar la API
         consultarAPI();
     }, [clientes]); // La dependencia 'clientes' hace que el efecto se ejecute cada vez que 'clientes' cambia
+
+    // Si no hay clientes en el estado, muestra el componente Spinner (indicador de carga)
+    if (!clientes.length) return <Spinner />
 
     return (
         <Fragment>
