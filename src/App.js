@@ -16,6 +16,7 @@ import NuevoProducto from './components/productos/NuevoProducto'; // Importar el
 import EditarProducto from './components/productos/EditarProducto'; // Importar el componente EditarProducto
 
 import Pedidos from './components/pedidos/Pedidos'; // Importar el componente Pedidos
+import NuevoPedido from './components/pedidos/NuevoPedido'; // Importar el componente de NuevoPedido
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                             <Route path='/productos/editar-producto/:id' element={<EditarProducto />} /> {/* Ruta para el formulario de editar producto */}
 
                             <Route path="/pedidos" element={<Pedidos />} /> {/* Ruta para listar los pedidos */}
+                            <Route path='/pedidos/nuevo-pedido/:id' element={<NuevoPedido />} /> {/* Ruta para el formulario de nuevo pedido */}
                         </Routes>
                     </main>
                 </div>
