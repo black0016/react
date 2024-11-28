@@ -1,12 +1,17 @@
-import React, { useState } from 'react'; // Importar react y useState para el estado del componente NuevoCliente 
+import React, { useState, useContext } from 'react'; // Importar react y useState para el estado del componente NuevoCliente 
 import clienteAxios from '../../config/axios'; // Importar clienteAxios de axios para las peticiones al servidor
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate de react-router-dom para navegar entre páginas
 import Swal from 'sweetalert2'; // Importar SweetAlert2 para mostrar alertas en la aplicación
+
+import { CRMContext } from '../../context/CRMContext'; // Importar el contexto de CRMContext para acceder al estado de autenticación
 
 const NuevoCliente = () => {
 
     // Obtener la función navigate
     const navigate = useNavigate();
+
+    // Utilizar valores del contexto de CRMContext para acceder al estado de autenticación
+    const [auth, guardarAuth] = useContext(CRMContext);
 
     // State para el cliente
     const [cliente, guardarCliente] = useState({
@@ -64,6 +69,10 @@ const NuevoCliente = () => {
             })
     }
 
+    // Validar si el usuario está autenticado
+    if (!auth.auth && (localStorage.getItem('token') === auth.token)) {
+        navigate('/iniciar-sesion');
+    }
 
     return (
         <> {/* Fragment simplificado sin necesidad de importar Fragment*/}

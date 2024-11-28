@@ -1,5 +1,5 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, Fragment, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Importar clienteAxios de axios para las peticiones al servidor
 import clienteAxios from '../../config/axios';
@@ -8,24 +8,54 @@ import Cliente from './Cliente';
 // Importar el componente Spinner para mostrar un indicador de carga
 import Spinner from '../layout/Spinner';
 
+// Importar el contexto de CRMContext para acceder al estado de autenticación
+import { CRMContext } from '../../context/CRMContext';
+
 const Clientes = () => {
+    // Obtener la función navigate
+    const navigate = useNavigate();
 
     // Hook useState para manejar el estado de los clientes
     const [clientes, guardarClientes] = useState([]);
 
+    // Utilizar valores del contexto de CRMContext para acceder al estado de autenticación
+    const [auth, guardarAuth] = useContext(CRMContext);
+
     // Hook useEffect para ejecutar efectos secundarios en componentes funcionales
     useEffect(() => {
-        // Función asíncrona para consultar la API
-        const consultarAPI = async () => {
-            // Realiza una solicitud GET a la API para obtener los clientes
-            const clientesConsulta = await clienteAxios.get('/clientes');
-            // Guarda los datos obtenidos en el estado 'clientes'
-            guardarClientes(clientesConsulta.data);
+        if (auth.token !== '') {
+            // Función asíncrona para consultar la API
+            const consultarAPI = async () => {
+                try {
+                    const clientesConsulta = await clienteAxios.get('/clientes', {
+                        headers: {
+                            Authorization: `Bearer ${auth.token}`
+                        }
+                    });
+                    guardarClientes(clientesConsulta.data);
+                } catch (error) {
+                    // Si hay un error, mostrarlo en consola
+                    console.log(error);
+                    // Si hay un error con el token, redirige al usuario a iniciar sesión
+                    if (error.response.status === 500) {
+                        navigate('/iniciar-sesion');
+                    }
+                }
+            }
+            // Llama a la función para consultar la API
+            consultarAPI();
+        } else {
+            // Si no hay un token, redirige al usuario a iniciar sesión
+            navigate('/iniciar-sesion');
         }
 
-        // Llama a la función para consultar la API
-        consultarAPI();
-    }, [clientes]); // La dependencia 'clientes' hace que el efecto se ejecute cada vez que 'clientes' cambia
+    }, [clientes, auth.token, navigate]);
+
+    useEffect(() => {
+        if (!auth.auth) {
+            navigate('/iniciar-sesion');
+        }
+    }, [auth.auth, navigate]);
 
     // Si no hay clientes en el estado, muestra el componente Spinner (indicador de carga)
     if (!clientes.length) return <Spinner />
